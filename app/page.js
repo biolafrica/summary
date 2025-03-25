@@ -1,95 +1,53 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <div className="button-group">
+        <button className="pri-btn">Text</button>
+        <button className="text-btn">Pdf</button>
+        <button className="text-btn">Picture</button>
+      </div>
+      
+      <form className="upload-form" >
+
+        <h3 style={{textAlign: "center", marginTop: "20px"}}>Summary</h3>
+
+        <label htmlFor="image">
+          <h5>Upload image</h5>
+          <input type="file" name="image" />
+        </label>
+
+        <label htmlFor="pdf">
+          <h5>Upload pdf</h5>
+          <input type="file" name="pdf" />
+        </label>
+
+        <label htmlFor="text">
+          <h5>Enter text</h5>
+          <textarea name="text"></textarea>
+        </label>
+
+     
+
+        <select name="language" >
+          <label htmlFor=""><h5>Select Language</h5></label>
+          <option>Select Language</option>
+          <option value="english">English</option>
+          <option value="french">French</option>
+          <option value="spain">Spain</option>
+        </select>
+
+        <select name="suammry" >
+          <label htmlFor="summary"><h5>Select Summary</h5></label>
+          <option >Select Summary</option>
+          <option value="short">Short</option>
+          <option value="medium">Medium</option>
+          <option value="detailed">Detailed</option>
+        </select>
+
+        <button className="pri-btn">Summarize</button>
+
+      </form>
     </div>
   );
 }
