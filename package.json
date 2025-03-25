@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "cloudinary": "^2.6.0",
+    "mongoose": "^8.13.0",
     "next": "15.2.4",
     "node-fetch": "^3.3.2",
     "openai": "^4.89.0",
