@@ -17,30 +17,69 @@ export default function Upload(){
   }
 
   const [state, setState]= useState("text");
-  const [laoding, setLoading] = useState(false)
+  const [laoding, setLoading] = useState(false);
   const {formData, handleInputChange, resetForm}= useForm(initialValues);
+  const [file, setFile] = useState(null);
+
+  const handleFileUpload = async()=>{
+    if(!file){
+      console.log("No file selected")
+      return
+    }
+    console.log(file)
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if(!res.ok) throw new Error (data.error || "Upload failed")
+      
+      console.log("File uploaded successfully", data.fileUrl);
+      return data.fileUrl;
+      
+    } catch (error) {
+      console.error("Upload error:", error)
+    }
+
+  }
 
   const handleFormSubmit= async(e)=>{
     e.preventDefault();
-    setLoading(true);
+    setLoading(true)
 
-    const res = await fetch("",{
-      method: "POST",
-      headers : {"Content-Type": "application/json"},
-      body: JSON.stringify(formData)
-    });
+    let updatedFormData = {...formData}
 
-    const summary = await res.json();
+    if(file){
+      const filePath = await handleFileUpload();
 
-    if(summary.data){
-      router.push(`/upload/${summary.data.id}`)
-    }else{
-      console.log(error.message)
+      if (state === picture){
+        updatedFormData = {...formData, image: filePath }
+      }else { updatedFormData = {...formData, pdf: filePath}} 
+
     }
 
+    const response = await fetch("/api/summarize", {
+      method: 'POST',
+      headers: {"Content-Type" : "application/json"},
+      body: JSON.stringify(updatedFormData)
+
+    })
+
+    const data = await response.json();
+    if (data){
+      router.push(`/upload/${data.id}`)
+    }
+
+    setLoading(false)
     resetForm();
-    setLoading(false);
-    
+
   }
 
   return(
@@ -64,8 +103,7 @@ export default function Upload(){
             <input 
               type="file" 
               name="image"
-               value={formData.image}
-              onChange={handleInputChange} 
+              onChange={(e)=>setFile(e.target.files[0])} 
             />
           </label>
 
@@ -78,8 +116,7 @@ export default function Upload(){
             <input 
               type="file" 
               name="pdf"
-              value={formData.pdf}
-              onChange={handleInputChange} 
+              onChange={(e)=>setFile(e.target.files[0])}
             />
           </label>
 
