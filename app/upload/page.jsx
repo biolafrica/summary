@@ -1,35 +1,54 @@
+"use client"
+
+import { useState } from "react"
+
 export default function Upload(){
+
+  const [state, setState]= useState("text")
+
   return(
     
     <div>
 
       <div className="button-group">
-        <button className="pri-btn">Text</button>
-        <button className="text-btn">Pdf</button>
-        <button className="text-btn">Picture</button>
+        <button className={state === "text" ? "pri-btn" : "text-btn" } onClick={()=>setState("text")}>Text</button>
+        <button className={state === "pdf" ? "pri-btn" : "text-btn"} onClick={()=>setState("pdf")}>Pdf</button>
+        <button className={state === "picture" ? "pri-btn" : "text-btn"} onClick={()=>setState("picture")}>Picture</button>
       </div>
       
       <form className="upload-form" >
 
         <h3 style={{textAlign: "center", marginTop: "20px"}}>Summary</h3>
 
-        <label htmlFor="image">
-          <h5>Upload image</h5>
-          <input type="file" name="image" />
-        </label>
+        {state === "picture" && (
 
-        <label htmlFor="pdf">
-          <h5>Upload pdf</h5>
-          <input type="file" name="pdf" />
-        </label>
+          <label htmlFor="image">
+            <h4>Upload image</h4>
+            <input type="file" name="image" />
+          </label>
 
-        <label htmlFor="text">
-          <h5>Enter text</h5>
-          <textarea name="text"></textarea>
-        </label>
+        )}
 
+        {state == "pdf" && (
+
+          <label htmlFor="pdf">
+            <h4>Upload pdf</h4>
+            <input type="file" name="pdf" />
+          </label>
+
+        )}
+
+      
+        {state === "text" && (
+          <label htmlFor="text" >
+            <h4>Enter text</h4>
+            <textarea name="text"></textarea>
+          </label>
+
+        )}
+      
         <label htmlFor="language">
-          <h5>Select Language</h5>
+          <h4>Select Language</h4>
           <select name="language" >
             <option>Select Language</option>
             <option value="english">English</option>
@@ -39,7 +58,7 @@ export default function Upload(){
         </label>
       
         <label htmlFor="summary">
-          <h5>Select Summary</h5>
+          <h4>Select Summary</h4>
           <select name="suammry" >
             <option >Select Summary</option>
             <option value="short">Short</option>

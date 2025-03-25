@@ -7,7 +7,6 @@ export default function MyUpload(){
         <h4>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem qui unde dolorum nostrum explicabo quia, cum sint nemo expedita saepe, velit officiis cupiditate itaque ipsam. Recusandae quasi voluptate ad tempora?
         </h4>
-
       </div>
 
 
@@ -21,8 +20,8 @@ export default function MyUpload(){
           <button className="pri-btn">Re-try</button>
           <button className="sec-btn">Copy</button>
         </div>
-       
       </div>
+
     </div>
   )
 }
