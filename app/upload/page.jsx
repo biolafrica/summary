@@ -1,10 +1,47 @@
 "use client"
 
 import { useState } from "react"
+import useForm from "../hooks/useForm"
+import { useRouter } from "next/navigation"
+
 
 export default function Upload(){
+  const router = useRouter();
 
-  const [state, setState]= useState("text")
+  const initialValues = {
+    text: "",
+    image : "",
+    pdf: "",
+    language: "",
+    summary: ""
+  }
+
+  const [state, setState]= useState("text");
+  const [laoding, setLoading] = useState(false)
+  const {formData, handleInputChange, resetForm}= useForm(initialValues);
+
+  const handleFormSubmit= async(e)=>{
+    e.preventDefault();
+    setLoading(true);
+
+    const res = await fetch("",{
+      method: "POST",
+      headers : {"Content-Type": "application/json"},
+      body: JSON.stringify(formData)
+    });
+
+    const summary = await res.json();
+
+    if(summary.data){
+      router.push(`/upload/${summary.data.id}`)
+    }else{
+      console.log(error.message)
+    }
+
+    resetForm();
+    setLoading(false);
+    
+  }
 
   return(
     
@@ -16,7 +53,7 @@ export default function Upload(){
         <button className={state === "picture" ? "pri-btn" : "text-btn"} onClick={()=>setState("picture")}>Picture</button>
       </div>
       
-      <form className="upload-form" >
+      <form className="upload-form" onSubmit={handleFormSubmit} >
 
         <h3 style={{textAlign: "center", marginTop: "20px"}}>Summary</h3>
 
@@ -24,7 +61,12 @@ export default function Upload(){
 
           <label htmlFor="image">
             <h4>Upload image</h4>
-            <input type="file" name="image" />
+            <input 
+              type="file" 
+              name="image"
+               value={formData.image}
+              onChange={handleInputChange} 
+            />
           </label>
 
         )}
@@ -33,7 +75,12 @@ export default function Upload(){
 
           <label htmlFor="pdf">
             <h4>Upload pdf</h4>
-            <input type="file" name="pdf" />
+            <input 
+              type="file" 
+              name="pdf"
+              value={formData.pdf}
+              onChange={handleInputChange} 
+            />
           </label>
 
         )}
@@ -42,14 +89,22 @@ export default function Upload(){
         {state === "text" && (
           <label htmlFor="text" >
             <h4>Enter text</h4>
-            <textarea name="text"></textarea>
+            <textarea 
+              name="text"
+              value={formData.text}
+              onChange={handleInputChange} 
+            ></textarea>
           </label>
 
         )}
       
         <label htmlFor="language">
           <h4>Select Language</h4>
-          <select name="language" >
+          <select 
+            name="language"
+            value={formData.language}
+            onChange={handleInputChange}  
+          >
             <option>Select Language</option>
             <option value="english">English</option>
             <option value="french">French</option>
@@ -59,7 +114,11 @@ export default function Upload(){
       
         <label htmlFor="summary">
           <h4>Select Summary</h4>
-          <select name="suammry" >
+          <select 
+            name="suammry"
+            value={formData.summary}
+            onChange={handleInputChange}  
+          >
             <option >Select Summary</option>
             <option value="short">Short</option>
             <option value="medium">Medium</option>
@@ -68,7 +127,7 @@ export default function Upload(){
         </label>
     
 
-        <button className="pri-btn">Summarize</button>
+        <button disabled={laoding} className="pri-btn" type="submit">{laoding? 'summarizing' : 'summarize'}</button>
 
       </form>
 

@@ -4,7 +4,7 @@ import { useState } from "react"
 
 export default function useForm(initialValues){
 
-  const [formData, setFormData] = useState("initialValues");
+  const [formData, setFormData] = useState(initialValues);
 
   const handleInputChange = (e)=>{
     const {name, value} = e.target
