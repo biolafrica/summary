@@ -13,7 +13,7 @@ export default function Upload(){
     image : "",
     pdf: "",
     language: "",
-    summary: ""
+    summary_type: ""
   }
 
   const [state, setState]= useState("text");
@@ -59,11 +59,13 @@ export default function Upload(){
     if(file){
       const filePath = await handleFileUpload();
 
-      if (state === picture){
+      if (state === "picture"){
         updatedFormData = {...formData, image: filePath }
       }else { updatedFormData = {...formData, pdf: filePath}} 
 
     }
+
+    console.log("sent form", updatedFormData);
 
     const response = await fetch("/api/summarize", {
       method: 'POST',
@@ -74,8 +76,8 @@ export default function Upload(){
 
     const data = await response.json();
     if (data){
-      router.push(`/upload/${data.id}`)
-    }
+      console.log ("my data", data)
+    }else {console.log("no data")}
 
     setLoading(false)
     resetForm();
@@ -92,7 +94,7 @@ export default function Upload(){
         <button className={state === "picture" ? "pri-btn" : "text-btn"} onClick={()=>setState("picture")}>Picture</button>
       </div>
       
-      <form className="upload-form" onSubmit={handleFormSubmit} >
+      <form className="upload-form" onSubmit={handleFormSubmit} encType="multipart/form-data" >
 
         <h3 style={{textAlign: "center", marginTop: "20px"}}>Summary</h3>
 
@@ -149,11 +151,11 @@ export default function Upload(){
           </select>
         </label>
       
-        <label htmlFor="summary">
-          <h4>Select Summary</h4>
+        <label htmlFor="summary_type">
+          <h4>Select Summary Type</h4>
           <select 
-            name="suammry"
-            value={formData.summary}
+            name="summary_type"
+            value={formData.summary_type}
             onChange={handleInputChange}  
           >
             <option >Select Summary</option>

@@ -1,25 +1,22 @@
-import dbConnect from "@/app/utils/db";
 import { NextResponse } from "next/server";
-import Summary from "../../models/summary"
-import { summarizeText, extractTextFromPDF, extractTextFromImage } from "@/app/utils/extractData";
+import { summarizeText,extractTextFromImage } from "@/app/utils/extractData";
 
-
-await dbConnect();
 
 export async function POST(req){
-  try {
-    const {text, pdf, image, language, summary} = await req.json();
 
-    console.log("req", text, pdf, image);
-    
+  const updatedForm = await req.json();
+  const {text, image, pdf, language, summary_type} = updatedForm;
+  console.log (updatedForm)
+
+  try {
     let extractedText = text || "";
     let type = "text";
     let sourceUrl = null;
 
     if(pdf){
-      const parsedPDF = await extractTextFromPDF(pdf)
-      console.log("parsed pdf", parsedPDF);
-      extractedText = parsedPDF.text;
+      type= "pdf",
+      sourceUrl = pdf;
+      extractedText = await extractTextFromImage(pdf);
     }
 
     if(image){
@@ -28,22 +25,13 @@ export async function POST(req){
       extractedText = await extractTextFromImage(image);
     }
 
+    const summarizedText = await summarizeText();
+
     if(!extractedText){
       return NextResponse.json({error : "No valid text to summarize"}, {status: 400});
     }
-
-    const summaryText = await summarizeText(extractedText, summary);
-
-    const newSummary = new Summary({
-      text: extractedText,
-      summary : summaryText,
-      type,
-      sourceUrl,
-      language
-    });
-
-    await newSummary.save();
-    return NextResponse.json({id: newSummary._id})
+   
+    return NextResponse.json({extractedText})
 
   } catch (error) {
     console.error("Summarization Error", error);
