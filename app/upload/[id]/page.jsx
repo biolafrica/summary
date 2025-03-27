@@ -13,7 +13,7 @@ export default async function MyUpload({params}){
       <div className="input">
         <h3>Input</h3>
 
-        {selectedSummary.sourceUrl && (<Image src={`${selectedSummary.sourceUrl}`} width={700} height={400}/>)}
+        {selectedSummary.sourceUrl && (<Image src={`${selectedSummary.sourceUrl}`} width={700} height={400} alt="input image"/>)}
 
         {selectedSummary.type === "text" && (<h4>{selectedSummary.text}</h4>)}
        

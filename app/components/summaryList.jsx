@@ -17,13 +17,15 @@ export default function SummaryList({display}){
       })
 
       const data = await res.json();
-    
-      if(data.summary){
-        setSummarize(data)
-      }else{
-        console.error("Retry failed: No summary returned")
+
+      if (data && typeof data.summary === "string") {
+        setSummarize(data.summary);
+      } else {
+        console.error("Retry failed: No valid summary returned.");
       }
       
+     
+
     } catch (error) {
       console.error("error retrying summary:", error)
     }
