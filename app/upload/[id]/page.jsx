@@ -1,20 +1,26 @@
-export default function MyUpload(){
+import { getSummary } from "@/app/utils/Database/getSummary";
+import Image from "next/image";
+
+export default async function MyUpload({params}){
+  const {id}= await params;
+  const selectedSummary = await getSummary(id);
+
   return(
     <div className="output-cont">
 
       <div className="input">
         <h3>Input</h3>
-        <h4>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem qui unde dolorum nostrum explicabo quia, cum sint nemo expedita saepe, velit officiis cupiditate itaque ipsam. Recusandae quasi voluptate ad tempora?
-        </h4>
+
+        {selectedSummary.sourceUrl && (<Image src={`${selectedSummary.sourceUrl}`} width={700} height={400}/>)}
+
+        {selectedSummary.type === "text" && (<h4>{selectedSummary.text}</h4>)}
+       
       </div>
 
 
       <div className="result">
         <h3>Result</h3>
-        <h4>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, aspernatur! Eum laborum corrupti suscipit quidem, ratione eos natus reprehenderit voluptates eaque neque? Totam, sit. Facilis hic eaque veniam ex numquam!
-        </h4>
+        <h4>{selectedSummary.summary}</h4>
 
         <div className="action">
           <button className="pri-btn">Re-try</button>

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { summarizeText,extractTextFromImage } from "@/app/utils/extractData";
-import { dbConnect } from "@/app/utils/db";
+import { dbConnect } from "@/app/utils/Database/db";
 import summary from "@/app/models/summary";
 
 await dbConnect();
