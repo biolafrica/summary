@@ -75,7 +75,7 @@ export default function Upload(){
     })
 
     const data = await response.json();
-    if (data){
+    if (data.id){
       console.log ("my data", data)
     }else {console.log("no data")}
 

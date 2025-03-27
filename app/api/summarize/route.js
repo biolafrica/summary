@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { summarizeText,extractTextFromImage } from "@/app/utils/extractData";
 import { dbConnect } from "@/app/utils/db";
+import summary from "@/app/models/summary";
 
 await dbConnect();
 
@@ -32,7 +33,18 @@ export async function POST(req){
     }
    
     const summarizedText = await summarizeText(extractedText, summary_type);
-    return NextResponse.json({summarizedText})
+
+    const newSummary = new summary({
+      text : extractedText,
+      summary : summarizedText,
+      type,
+      sourceUrl,
+      language
+
+    })
+
+    await newSummary.save();
+    return NextResponse.json({id : newSummary._id});
 
   } catch (error) {
     console.error("Summarization Error", error);
