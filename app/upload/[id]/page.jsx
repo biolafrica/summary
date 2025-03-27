@@ -1,4 +1,5 @@
 import { getSummary } from "@/app/utils/Database/getSummary";
+import SummaryList from "@/app/components/summaryList";
 import Image from "next/image";
 
 export default async function MyUpload({params}){
@@ -6,6 +7,7 @@ export default async function MyUpload({params}){
   const selectedSummary = await getSummary(id);
 
   return(
+
     <div className="output-cont">
 
       <div className="input">
@@ -17,17 +19,9 @@ export default async function MyUpload({params}){
        
       </div>
 
-
-      <div className="result">
-        <h3>Result</h3>
-        <h4>{selectedSummary.summary}</h4>
-
-        <div className="action">
-          <button className="pri-btn">Re-try</button>
-          <button className="sec-btn">Copy</button>
-        </div>
-      </div>
+      <SummaryList display={selectedSummary.summary}/>
 
     </div>
+    
   )
 }
