@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { summarizeText,extractTextFromImage } from "@/app/utils/extractData";
+import { dbConnect } from "@/app/utils/db";
 
+await dbConnect();
 
 export async function POST(req){
 
@@ -25,13 +27,12 @@ export async function POST(req){
       extractedText = await extractTextFromImage(image);
     }
 
-    const summarizedText = await summarizeText();
-
     if(!extractedText){
       return NextResponse.json({error : "No valid text to summarize"}, {status: 400});
     }
    
-    return NextResponse.json({extractedText})
+    const summarizedText = await summarizeText(extractedText, summary_type);
+    return NextResponse.json({summarizedText})
 
   } catch (error) {
     console.error("Summarization Error", error);
