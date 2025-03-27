@@ -76,8 +76,10 @@ export default function Upload(){
 
     const data = await response.json();
     if (data.id){
-      console.log ("my data", data)
-    }else {console.log("no data")}
+      router.push(`/upload/${data.id}`)
+    }else {
+      console.log("Error fetching Summary", error)
+    }
 
     setLoading(false)
     resetForm();
