@@ -19,7 +19,7 @@ export default async function MyUpload({params}){
        
       </div>
 
-      <SummaryList display={selectedSummary.summary}/>
+      <SummaryList display={selectedSummary.summary} id={selectedSummary._id}/>
 
     </div>
     

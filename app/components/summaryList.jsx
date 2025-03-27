@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function SummaryList({display}){
+export default function SummaryList({display, id}){
   const [summarize, setSummarize] = useState(display)
   const [loading, setLoading] = useState(false)
   
@@ -13,7 +13,7 @@ export default function SummaryList({display}){
       const res = await fetch("http://localhost:3000/api/retry-summarize", {
         method: "POST",
         headers :{"Content-Type": "application/json"},
-        body: JSON.stringify({text: summarize})
+        body: JSON.stringify({text: summarize, id})
       })
 
       const data = await res.json();
