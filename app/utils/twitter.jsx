@@ -1,24 +1,19 @@
-import  {TwitterApi} from "twitter-api-v2"
-import { configDotenv } from "dotenv"
+import { TwitterApi } from "twitter-api-v2";
 
-configDotenv()
-
-const twitterClient = new TwitterApi({
+const client = new TwitterApi({
   appKey: process.env.NEXT_PUBLIC_TWITTER_API_KEY,
   appSecret: process.env.NEXT_PUBLIC_TWITTER_API_SECRET_KEY,
-  accessToken:process.env.NEXT_PUBLIC_TWITTER_ACCESS_TOKEN,
-  accessSecret:process.env.NEXT_PUBLIC_TWITTER_ACCESS_TOKEN_SECRET
+  accessToken: process.env.NEXT_PUBLIC_TWITTER_ACCESS_TOKEN,
+  accessSecret: process.env.NEXT_PUBLIC_TWITTER_ACCESS_TOKEN_SECRET,
+});
 
-})
-
-export async function tweet(text){
+export async function tweet(message) {
   try {
-    const tweetResponse = await twitterClient.v2.tweet(text);
-    console.log("tweeted:", tweetResponse)
-    return tweetResponse
-    
+    const response = await client.v2.tweet(message);
+    return response;
   } catch (error) {
-    console.error("Twitter API Error", error);
+    console.error("Twitter API Error:", error);
+    return {error :"Failed to post tweet", details: error.data || error.message};
   }
-
 }
+
