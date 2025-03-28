@@ -10,7 +10,7 @@ export default function SummaryList({display, id}){
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/retry-summarize", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/retry-summarize`, {
         method: "POST",
         headers :{"Content-Type": "application/json"},
         body: JSON.stringify({text: summarize, id})

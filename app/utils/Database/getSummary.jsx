@@ -3,7 +3,7 @@
 export async function getSummary(id){
 
   try {
-    const response = await fetch(`http://localhost:3000/api/summarize/${id}`)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/summarize/${id}`)
     const data = await response.json();
     return data;
     

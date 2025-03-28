@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { message } = await req.json(); // ✅ Corrected request parsing
+    const { message } = await req.json(); //  Corrected request parsing
 
     if (!message) {
       return NextResponse.json({ error: "No message provided" }, { status: 400 });

@@ -33,7 +33,7 @@ export default function Upload(){
 
     try {
 
-      const res = await fetch("/api/upload", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload`,{
         method: "POST",
         body: formData,
       });
@@ -67,7 +67,7 @@ export default function Upload(){
 
     console.log("sent form", updatedFormData);
 
-    const response = await fetch("/api/summarize", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/summarize`, {
       method: 'POST',
       headers: {"Content-Type" : "application/json"},
       body: JSON.stringify(updatedFormData)

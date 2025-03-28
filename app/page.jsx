@@ -1,6 +1,6 @@
 export default async function Home() {
 
-  const response = await fetch("http://localhost:3000/api/tweet", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/tweet`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: "🚀 Testing my Twitter bot!" }),
