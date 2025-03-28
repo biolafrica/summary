@@ -7,13 +7,6 @@ const client = new TwitterApi({
   accessSecret: process.env.NEXT_PUBLIC_TWITTER_ACCESS_TOKEN_SECRET,
 });
 
-export async function tweet(message) {
-  try {
-    const response = await client.v2.tweet(message);
-    return response;
-  } catch (error) {
-    console.error("Twitter API Error:", error);
-    return {error :"Failed to post tweet", details: error.data || error.message};
-  }
-}
+const rwClient = client.readWrite;
+export {rwClient}
 
