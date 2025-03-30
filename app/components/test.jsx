@@ -1,4 +1,5 @@
-import { rwClient } from "../utils/twitter"
+import { rwClient } from "../utils/twitter/connect";
+import { listenForMention} from "../utils/twitter/listen";
 
 export default function Test(){
 
@@ -6,7 +7,7 @@ export default function Test(){
 
     try {
       const user = await rwClient.v2.me();
-      console.log("connected to twitter as:", user.data.username)
+      console.log("connected to twitter as:", user.data)
     } catch (error) {
       console.error("twitter connection failed", error)
     }
@@ -29,7 +30,10 @@ export default function Test(){
     }
   }
 
-  testTweet()
+  checkTwitterConnection()
+
+
+ 
 
   return(
     <h2>Testing</h2>
